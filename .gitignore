@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+.bash_history
+docker/.history/docker_bash_history
