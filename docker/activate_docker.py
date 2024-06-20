@@ -78,14 +78,18 @@ def main():
         '--rm',
         '--hostname', DOCKER_HOST_NAME,
         '--cap-add=SYS_PTRACE',
-        '-e', f'LOCAL_USER_ID={os.getuid()}',
-        '-e', f'LOCAL_USER_GID={os.getgid()}',
-        '-v', f'"{os.getcwd()}:/home/{DOCKER_USER_NAME}"',
-
-        # bash history file
+        '-v', f'"{cwd}:/home/{DOCKER_USER_NAME}"',
         '-v', f'"{dirpath}/.history/docker_bash_history:/{dk_home}/.bash_history"',
-        "--cap-add sys_ptrace",
+        "--cap-add", "SYS_PTRACE",
     ]
+
+    # Only set user and group ID environment variables if not on Windows
+    if sys.platform != 'win32':
+        docker_options.extend([
+            '-e', f'LOCAL_USER_ID={os.getuid()}',
+            '-e', f'LOCAL_USER_GID={os.getgid()}',
+        ])
+
     if test_src_fld:
         docker_options.append(
             f'-v {os.path.abspath(test_src_fld)}:{dk_home}/test')
@@ -96,9 +100,13 @@ def main():
         docker_options.extend(['-a', 'stdout'])
 
     cmd_list = docker_options + [DOCKER_IMG_NAME] + DOCKER_CMD
-    print(" ".join(cmd_list))
+    
+    exit_status = os.system(' '.join(cmd_list))
 
-    return os.WEXITSTATUS(os.system(' '.join(cmd_list)))
+    if sys.platform == 'win32':
+        return exit_status
+    else:
+        return os.WEXITSTATUS(exit_status)
 
 
 if __name__ == "__main__":
