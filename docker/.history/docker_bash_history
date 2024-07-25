@@ -1,2 +1,15 @@
 gdb
 exit
+ls
+exit
+ls
+ls
+cd src/
+ls
+make=
+make
+make clean
+make
+ls
+././scanner
+exit
