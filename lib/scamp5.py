@@ -1,7 +1,10 @@
 import ctypes
 from ctypes import c_uint8, c_int, c_char_p, c_void_p
 from .utils import AREG, Direction, Reg
-
+"""
+1 python sim version
+2 compile to c code using flex and bsion
+"""
 
 class Scamp5:
     vs_handle = ctypes.c_uint32
@@ -42,6 +45,15 @@ class Scamp5:
         self.__scamp5lib.move2Dir.argtypes = [ctypes.POINTER(AREG), ctypes.POINTER(AREG), ctypes.c_int, ctypes.c_int]
         self.__scamp5lib.move2Dir.restype = None
 
+        self.__scamp5lib.analog_where.argtypes = [ctypes.POINTER(AREG)]
+        self.__scamp5lib.analog_where.restype = None
+
+        self.__scamp5lib.c_all.argtypes = []
+        self.__scamp5lib.c_all.restype = None
+
+        self.__scamp5lib.digit_where.argtypes = [ctypes.POINTER(AREG)]
+        self.__scamp5lib.digit_where.restype = None
+
         self.__scamp5lib.medianFilter.argtypes = [ctypes.POINTER(AREG)]
         self.__scamp5lib.medianFilter.restype = None
 
@@ -77,6 +89,9 @@ class Scamp5:
     def get_image(self, reg):
         self.__scamp5lib.getImage(reg)
 
+    def end(self):
+        self.__scamp5lib.c_all()
+
     """ 
      add sub multiply
     """
@@ -87,20 +102,28 @@ class Scamp5:
     def sub(self, reg1, reg2, reg3):
         self.__scamp5lib.c_sub(reg1, reg2, reg3)
 
+    def multiply(self, reg1, reg2, num):
+        for _ in range(num):
+            self.__scamp5lib.c_add(reg1, reg2, reg2)
+
     """
      direction operation
     """
-    def north(self, dest, src):
-        self.__scamp5lib.moveDir(dest, src, Direction.NORTH)
+    def north(self, src):
+        self.__scamp5lib.moveDir(self.reg.A, src, Direction.NORTH)
+        return self.reg.A
 
-    def south(self, dest, src):
-        self.__scamp5lib.moveDir(dest, src, Direction.SOUTH)
+    def south(self, src):
+        self.__scamp5lib.moveDir(self.reg.A, src, Direction.SOUTH)
+        return self.reg.A
 
-    def east(self, dest, src):
-        self.__scamp5lib.moveDir(dest, src, Direction.EAST)
+    def east(self, src):
+        self.__scamp5lib.moveDir(self.reg.A, src, Direction.EAST)
+        return self.reg.A
 
-    def west(self, dest, src):
-        self.__scamp5lib.moveDir(dest, src, Direction.WEST)
+    def west(self, src):
+        self.__scamp5lib.moveDir(self.reg.A, src, Direction.WEST)
+        return self.reg.A
 
     def north_east(self, dest, src):
         self.__scamp5lib.move2Dir(dest, src, Direction.NORTH, Direction.EAST)
@@ -125,10 +148,10 @@ class Scamp5:
     def edge_detection(self, reg, method='sobel'):
         if method == 'sobel':
             self.__scamp5lib.sobel_filter(reg)
-            return scamp5.reg.E
+            return self.reg.E
         if method == 'laplacian':
             self.__scamp5lib.laplacian_filter(reg)
-            return scamp5.reg.E
+            return self.reg.E
         return None
 
 
