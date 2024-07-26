@@ -1,4 +1,4 @@
-from lib.scamp5 import Scamp5
+from lib.sim.scamp5 import Scamp5
 
 if __name__ == '__main__':
     scamp5 = Scamp5()
