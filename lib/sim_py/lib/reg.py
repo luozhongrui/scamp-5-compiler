@@ -3,8 +3,13 @@ import numpy as np
 
 class Register:
     mask = np.full((256, 256), 1, dtype=np.uint8)
+    # up_row = []
+    # down_row = []
+    # left_column = []
+    # right_column = []
 
-    def __init__(self, image):
+    def __init__(self, image=None):
+
         self.image = image
         self.height, self.width = image.shape[:2]
         self.flag = np.full((self.height, self.width), 1, dtype=np.int8)
@@ -12,12 +17,6 @@ class Register:
         self.down_row = []
         self.left_column = []
         self.right_column = []
-
-    def __eq__(self, other):
-        return np.array_equal(self.image[Register.mask == 1], other.image[Register.mask == 1])
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     def __sub__(self, other):
         result_image = self.image.copy()
@@ -32,11 +31,14 @@ class Register:
     def __gt__(self, other):
         result = np.zeros_like(self.image, dtype=bool)
         if isinstance(other, Register):
-            np.putmask(result, Register.mask, np.greater(self.image, other.image))
+            np.putmask(result, Register.mask,
+                       np.greater(self.image, other.image))
         elif isinstance(other, (int, float)):
             np.putmask(result, Register.mask, np.greater(self.image, other))
         else:
             raise ValueError("Unsupported type for comparison with Register")
+        new_mask = np.where(result, 1, 0).astype(np.uint8)
+        Register.set_mask(new_mask)
         return result
 
     def __lt__(self, other):
@@ -47,6 +49,8 @@ class Register:
             np.putmask(result, Register.mask, np.less(self.image, other))
         else:
             raise ValueError("Unsupported type for comparison with Register")
+        new_mask = np.where(result, 1, 0).astype(np.uint8)
+        Register.set_mask(new_mask)
         return result
 
     @classmethod
@@ -58,53 +62,83 @@ class Register:
         return cls.mask
 
     def north(self):
-        # 创建图像的副本
         img_copy = self.image.copy()
-        new_image = np.zeros_like(self.image)
-        self.up_row.append(img_copy[0, :].copy())
-        new_image[:-1] = img_copy[1:]
+        new_up_row = self.up_row.copy()
+        new_down_row = self.down_row.copy()
+        new_left_column = self.left_column.copy()
+        new_right_column = self.right_column.copy()
+
+        new_up_row.append(img_copy[0, :].copy())
+        img_copy[:-1] = img_copy[1:]
         if self.down_row:
-            new_image[-1, :] = self.down_row.pop()
+            img_copy[-1, :] = self.down_row.pop()
         else:
-            new_image[-1, :] = np.full((self.width,), 0, dtype=np.int8)
-        np.putmask(img_copy, Register.mask, new_image)
-        return Register(img_copy)
+            img_copy[-1, :] = np.full((self.width,), 0, dtype=np.int8)
+        new_register = Register(img_copy)
+        new_register.up_row = new_up_row.copy()
+        new_register.down_row = new_down_row.copy()
+        new_register.left_column = new_left_column.copy()
+        new_register.right_column = new_right_column.copy()
+        return new_register
 
     def south(self):
         img_copy = self.image.copy()
-        new_image = np.zeros_like(self.image)
-        self.down_row.append(img_copy[-1, :].copy())
-        new_image[1:] = img_copy[:-1]
+        new_up_row = self.up_row.copy()
+        new_down_row = self.down_row.copy()
+        new_left_column = self.left_column.copy()
+        new_right_column = self.right_column.copy()
+
+        new_down_row.append(img_copy[-1, :].copy())
+        img_copy[1:] = img_copy[:-1]
         if self.up_row:
-            new_image[0, :] = self.up_row.pop()
+            img_copy[0, :] = self.up_row.pop()
         else:
-            new_image[0, :] = np.full((self.width,), 0, dtype=np.int8)
-        np.putmask(img_copy, Register.mask, new_image)
-        return Register(img_copy)
+            img_copy[0, :] = np.full((self.width,), 0, dtype=np.int8)
+        new_register = Register(img_copy)
+        new_register.up_row = new_up_row.copy()
+        new_register.down_row = new_down_row.copy()
+        new_register.left_column = new_left_column.copy()
+        new_register.right_column = new_right_column.copy()
+        return new_register
 
     def west(self):
         img_copy = self.image.copy()
-        new_image = np.zeros_like(self.image)
-        self.left_column.append(img_copy[:, 0].copy())
-        new_image[:, :-1] = img_copy[:, 1:]
+        new_up_row = self.up_row.copy()
+        new_down_row = self.down_row.copy()
+        new_left_column = self.left_column.copy()
+        new_right_column = self.right_column.copy()
+        new_left_column.append(img_copy[:, 0].copy())
+        img_copy[:, :-1] = img_copy[:, 1:]
         if self.right_column:
-            new_image[:, -1] = self.right_column.pop()
+            img_copy[:, -1] = self.right_column.pop()
         else:
-            new_image[:, -1] = np.full((self.height,), 0, dtype=np.uint8)
-        np.putmask(img_copy, Register.mask, new_image)
-        return Register(img_copy)
+            img_copy[:, -1] = np.full((self.height,), 0, dtype=np.uint8)
+
+        new_register = Register(img_copy)
+        new_register.up_row = new_up_row.copy()
+        new_register.down_row = new_down_row.copy()
+        new_register.left_column = new_left_column.copy()
+        new_register.right_column = new_right_column.copy()
+        return new_register
 
     def east(self):
         img_copy = self.image.copy()
-        new_image = np.zeros_like(self.image)
-        self.right_column.append(img_copy[:, -1].copy())
-        new_image[:, 1:] = img_copy[:, :-1]
+        new_up_row = self.up_row.copy()
+        new_down_row = self.down_row.copy()
+        new_left_column = self.left_column.copy()
+        new_right_column = self.right_column.copy()
+        new_right_column.append(img_copy[:, -1].copy())
+        img_copy[:, 1:] = img_copy[:, :-1]
         if self.left_column:
-            new_image[:, 0] = self.left_column.pop()
+            img_copy[:, 0] = self.left_column.pop()
         else:
-            new_image[:, 0] = np.full((self.height,), 0, dtype=np.int8)
-        np.putmask(img_copy, Register.mask, new_image)
-        return Register(img_copy)
+            img_copy[:, 0] = np.full((self.height,), 0, dtype=np.int8)
+        new_register = Register(img_copy)
+        new_register.up_row = new_up_row.copy()
+        new_register.down_row = new_down_row.copy()
+        new_register.left_column = new_left_column.copy()
+        new_register.right_column = new_right_column.copy()
+        return new_register
 
     def north_east(self):
         return self.north().east()
@@ -139,6 +173,3 @@ if __name__ == "__main__":
     ], dtype=np.uint8)
     mask = np.full((256, 256), 1, dtype=np.uint8)
     print(mask.shape)
-
-
-

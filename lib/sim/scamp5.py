@@ -6,6 +6,7 @@ from .utils import AREG, Direction, Reg
 2 compile to c code using flex and bsion
 """
 
+
 class Scamp5:
     vs_handle = ctypes.c_uint32
     __scamp5lib = ctypes.CDLL(r'D:\dissertation\sourceCode\scamp5_project\scamp5lib.dll')
