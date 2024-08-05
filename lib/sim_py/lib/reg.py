@@ -29,8 +29,10 @@ class Register:
         return Register(result_image)
 
     def __gt__(self, other):
-        result = np.zeros_like(self.image, dtype=bool)
+        # result = np.zeros_like(self.image, dtype=bool)
+        result = Register.mask.copy()
         if isinstance(other, Register):
+
             np.putmask(result, Register.mask,
                        np.greater(self.image, other.image))
         elif isinstance(other, (int, float)):
@@ -42,7 +44,8 @@ class Register:
         return result
 
     def __lt__(self, other):
-        result = np.zeros_like(self.image, dtype=bool)
+        # result = np.zeros_like(self.image, dtype=bool)
+        result = Register.mask.copy()
         if isinstance(other, Register):
             np.putmask(result, Register.mask, np.less(self.image, other.image))
         elif isinstance(other, (int, float)):
@@ -52,6 +55,33 @@ class Register:
         new_mask = np.where(result, 1, 0).astype(np.uint8)
         Register.set_mask(new_mask)
         return result
+
+    def __le__(self, other):
+        result = Register.mask.copy()
+        if isinstance(other, Register):
+            np.putmask(result, Register.mask, np.less_equal(self.image, other.image))
+        elif isinstance(other, (int, float)):
+            np.putmask(result, Register.mask, np.less_equal(self.image, other))
+        else:
+            raise ValueError("Unsupported type for comparison with Register")
+        new_mask = np.where(result, 1, 0).astype(np.uint8)
+        Register.set_mask(new_mask)
+        return result
+
+    def __ge__(self, other):
+        result = Register.mask.copy()
+        if isinstance(other, Register):
+
+            np.putmask(result, Register.mask,
+                       np.greater_equal(self.image, other.image))
+        elif isinstance(other, (int, float)):
+            np.putmask(result, Register.mask, np.greater_equal(self.image, other))
+        else:
+            raise ValueError("Unsupported type for comparison with Register")
+        new_mask = np.where(result, 1, 0).astype(np.uint8)
+        Register.set_mask(new_mask)
+        return result
+
 
     @classmethod
     def set_mask(cls, mask):

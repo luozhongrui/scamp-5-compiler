@@ -12,26 +12,6 @@ def load_image(handle, size=256):
     map_frame = np.round((gray_frame / 255.0) * 127).astype(np.int8)
     return map_frame
 
-
-# class Display:
-#     def __init__(self, title):
-#         self.title = title
-#         self.closed = False
-#         self.fig, self.ax = plt.subplots()
-#         self.fig.canvas.manager.set_window_title(title)
-#         self.fig.canvas.mpl_connect('close_event', self.on_close)
-#
-#     def show_image(self, image):
-#         if not self.closed:
-#             self.ax.clear()
-#             self.ax.imshow(image, cmap='gray', vmin=-128, vmax=127)
-#             self.ax.axis('off')
-#             plt.draw()
-#             plt.pause(0.000001)
-#
-#     def on_close(self, event):
-#         self.closed = True
-#         plt.close(self.fig)
 class Display:
     _instance = None  # 单例实例
 
@@ -71,7 +51,7 @@ class Display:
 
             ax.clear()
             ax.imshow(image, cmap='gray', vmin=-128, vmax=127)
-            ax.axis('off')
+            # ax.axis('off')
             if title:
                 ax.set_title(title)
             self.fig.canvas.draw()  # 使用 draw 而不是 draw_idle

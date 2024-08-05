@@ -65,9 +65,10 @@ class Scamp5:
     def flag(self):
         return Register.get_mask()
 
-    def all(self):
-        self.FLAG = np.full((256, 256), 1, dtype=np.int8)
-        Register.set_mask(self.FLAG)
+    @staticmethod
+    def all():
+        flg = np.full((256, 256), 1, dtype=np.int8)
+        Register.set_mask(flg)
 
     @staticmethod
     def NOT(reg):
@@ -84,6 +85,11 @@ class Scamp5:
     @staticmethod
     def XOR(reg1, reg2):
         return Register(np.logical_xor(reg1.image, reg2.image))
+
+    def where(self, condition):
+        flg = condition
+        Register.set_mask(flg)
+        return True
 
 
 
