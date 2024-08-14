@@ -16,3 +16,39 @@ Before building the docker image, make sure that the docker/entrypoint.sh file i
 ```shell
 make activate
 ```
+
+### Delimiters
+
+|                 |    Delimiter     |
+| :-------------: | :--------------: |
+|      comma      |     **`,`**      |
+|      point      |     **`.`**      |
+|      colon      |     **`:`**      |
+|  single quote   |     **`'`**      |
+|      quote      |     **`"`**      |
+|   parentheses   | **`(`**, **`)`** |
+| square brackets | **`[`**, **`]`** |
+
+### Arithmetic, Relational, and Logical Operators
+
+|                |                         Operator                         |
+| :------------: | :------------------------------------------------------: |
+|    addition    |                         **`+`**                          |
+|  subtraction   |                         **`-`**                          |
+| multiplication |                         **`*`**                          |
+|   assignment   |                         **`=`**                          |
+|   relational   | **`<`**, **`<=`**, **`!=`**, **`>=`**, **`>`**, **`==`** |
+|    logical     |              **`and`**, **`or`**, **`not`**              |
+
+### Reserved Words
+
+- Declaration: `def`
+- Flow-of-control: `while`, `if`, `else`, `for`
+
+### Identifiers
+
+An identifier is a sequence of letters and digits beginning with a letter. Identifiers are case-sensitive; that is, **gura**, **Gura**, and **GURA** are treated as different identifiers. Note that reserved words CANNOT be used as identifiers.
+
+### Integer Constants
+
+A sequence of one or more digits. An integer that begins with the digit 0 **and** consists of a sequence of octal digits is treated as an **octal** integer; otherwise, the sequence of digit(s) is treated as a **decimal** integer.
