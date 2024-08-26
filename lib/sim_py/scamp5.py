@@ -11,12 +11,12 @@ class Scamp5:
     def __init__(self):
         self.cap = None
         # analog register
-        self.A = self.load_value(0)
-        self.B = self.load_value(0)
-        self.C = self.load_value(0)
-        self.D = self.load_value(0)
-        self.E = self.load_value(0)
-        self.F = self.load_value(0)
+        self._A = self.load_value(0)
+        self._B = self.load_value(0)
+        self._C = self.load_value(0)
+        self._D = self.load_value(0)
+        self._E = self.load_value(0)
+        self._F = self.load_value(0)
 
         # digital register
         self.R0 = self.load_value(0)
@@ -34,6 +34,54 @@ class Scamp5:
         self.R12 = self.load_value(0)
         # self.FLAG = None
         self.display = None
+
+    @property
+    def A(self):
+        return self._A
+
+    @A.setter
+    def A(self, value):
+        self._A = value
+
+    @property
+    def B(self):
+        return self._B
+
+    @B.setter
+    def B(self, value):
+        self._B = value
+
+    @property
+    def C(self):
+        return self._C
+
+    @C.setter
+    def C(self, value):
+        self._C = value
+
+    @property
+    def D(self):
+        return self._D
+
+    @D.setter
+    def D(self, value):
+        self._D = value
+
+    @property
+    def E(self):
+        return self._E
+
+    @E.setter
+    def E(self, value):
+        self._E = value
+
+    @property
+    def F(self):
+        return self._F
+
+    @F.setter
+    def F(self, value):
+        self._F = value
 
     @staticmethod
     def load_value(value):
@@ -53,6 +101,9 @@ class Scamp5:
 
     def mov(self, des, src):
         np.putmask(des.image, self.flag, src.image)
+
+    def abs(self, reg):
+        return Register(np.abs(reg.image))
 
     def plot(self, reg, row, col, title="image"):
         self.display.show_image(reg.image, row, col, title)
