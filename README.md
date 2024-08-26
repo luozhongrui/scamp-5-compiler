@@ -38,22 +38,19 @@ Make sure the following software is installed on your system:
 
 ### Directory Structure
 
-SCAMP5-Compiler/
-│
-├── src/ - Source code directory
-│ ├── transfor_tool.py - Main transformation tool
-│ └── ...
-│
-├── lib/ - Libraries for simulation and transformation
-│ ├── ast_tool.py - AST visitor and assembly generator
-│ ├── sim/ - Simulation library for SCAMP5 operations
-│ └── sim_py/ - Python-based SCAMP5 simulation library
-│
-├── example/ - Example scripts and usage scenarios
-│ ├── median_filter.py - Median filtering example
-│ └── ...
-│
-└── requirements.txt - Python dependencies
+SCAMP5-Compiler/  
+├── src/ - Source code directory  
+│   ├── transfor_tool.py - Main transformation tool  
+│   └── ...  
+├── lib/ - Libraries for simulation and transformation  
+│   ├── ast_tool.py - AST visitor and assembly generator  
+│   └── sim/ - Simulation library for SCAMP5 operations  
+│       └── sim_py/ - Python-based SCAMP5 simulation library  
+├── example/ - Example scripts and usage scenarios  
+│   ├── median_filter.py - Median filtering example  
+│   └── ...  
+└── requirements.txt - Python dependencies  
+
 
 ### Usage
 
