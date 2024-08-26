@@ -1,54 +1,87 @@
-# scamp-5-compiler
+# SCAMP5 Compiler
 
-## Prerequisite
+## Introduction
 
-**1. Build a local Docker image.**
+The SCAMP5 Compiler is designed to transform Python code into assembly code executable on the SCAMP5 processing architecture. This project includes libraries for code transformation, simulation, and image processing capabilities tailored for the SCAMP5 environment.
 
-```shell
-make docker-build
+## Features
+
+- **Code Transformation:** Converts Python scripts into assembly code specific to SCAMP5 devices.
+- **Image Processing Simulation:** Facilitates the development and testing of image processing algorithms on a simulated SCAMP5 environment.
+- **Extensible Framework:** Easily extendable to incorporate new instructions and functionalities into the compiler framework.
+
+## Installation
+
+### Prerequisites
+
+Make sure the following software is installed on your system:
+
+- Python 3.x
+- opencv-python
+- numpy
+- matplotlib
+
+### Setup Instructions
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/your-repo/SCAMP5-Compiler.git
+   cd SCAMP5-Compiler
+   ```
+
+2. **Install Dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Directory Structure
+
+SCAMP5-Compiler/
+│
+├── src/ - Source code directory
+│ ├── transfor_tool.py - Main transformation tool
+│ └── ...
+│
+├── lib/ - Libraries for simulation and transformation
+│ ├── ast_tool.py - AST visitor and assembly generator
+│ ├── sim/ - Simulation library for SCAMP5 operations
+│ └── sim_py/ - Python-based SCAMP5 simulation library
+│
+├── example/ - Example scripts and usage scenarios
+│ ├── median_filter.py - Median filtering example
+│ └── ...
+│
+└── requirements.txt - Python dependencies
+
+### Usage
+
+#### Converting Python Code to SCAMP5 Assembly
+
+**Run the Conversion Tool:**
+
+```bash
+python src/transfor_tool.py -path example/your_script.py -o output/your_output.asm
+
 ```
 
-<span style="color: yellow; font-size: 24px;">&#x26A0;</span> For Windows User:
-Before building the docker image, make sure that the docker/entrypoint.sh file is formatted in Linux/Unix format (with the terminator \n instead of \r\n)
+Use the `-path` option to specify the path to the input Python file and `-o` to specify the path for the output assembly code file.
 
-**2. Activate the Docker environment.**
+**Running Simulations**
 
-```shell
-make activate
+1. Execute Example Scripts:
+
+```bash
+python example/median_filter.py
 ```
 
-### Delimiters
+This script will launch a simulation of the SCAMP5 platform, allowing you to observe the effects of the median filter algorithm.
 
-|                 |    Delimiter     |
-| :-------------: | :--------------: |
-|      comma      |     **`,`**      |
-|      point      |     **`.`**      |
-|      colon      |     **`:`**      |
-|  single quote   |     **`'`**      |
-|      quote      |     **`"`**      |
-|   parentheses   | **`(`**, **`)`** |
-| square brackets | **`[`**, **`]`** |
+### Contributing
 
-### Arithmetic, Relational, and Logical Operators
+Contributions are welcome! Feel free to submit pull requests or open issues for bug reports and feature requests.
 
-|                |                         Operator                         |
-| :------------: | :------------------------------------------------------: |
-|    addition    |                         **`+`**                          |
-|  subtraction   |                         **`-`**                          |
-| multiplication |                         **`*`**                          |
-|   assignment   |                         **`=`**                          |
-|   relational   | **`<`**, **`<=`**, **`!=`**, **`>=`**, **`>`**, **`==`** |
-|    logical     |              **`and`**, **`or`**, **`not`**              |
+### License
 
-### Reserved Words
-
-- Declaration: `def`
-- Flow-of-control: `while`, `if`, `else`, `for`
-
-### Identifiers
-
-An identifier is a sequence of letters and digits beginning with a letter. Identifiers are case-sensitive; that is, **gura**, **Gura**, and **GURA** are treated as different identifiers. Note that reserved words CANNOT be used as identifiers.
-
-### Integer Constants
-
-A sequence of one or more digits. An integer that begins with the digit 0 **and** consists of a sequence of octal digits is treated as an **octal** integer; otherwise, the sequence of digit(s) is treated as a **decimal** integer.
+This project is licensed under the MIT License. See the LICENSE file for more details.
