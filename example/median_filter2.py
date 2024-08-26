@@ -12,7 +12,8 @@ def median_filter():
     scamp5.A = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.F >= scamp5.A) & scamp5.where(scamp5.F <= scamp5.B)
+    scamp5.where(scamp5.F >= scamp5.A)
+    scamp5.where(scamp5.F <= scamp5.B)
     scamp5.C = scamp5.B
     scamp5.B = scamp5.F
     scamp5.all()
@@ -29,12 +30,14 @@ def median_filter():
     scamp5.A = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.A <= scamp5.F) & scamp5.where(scamp5.F <= scamp5.B)
+    scamp5.where(scamp5.A <= scamp5.F)
+    scamp5.where(scamp5.F <= scamp5.B)
     scamp5.C = scamp5.B
     scamp5.B = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.B <= scamp5.F) & scamp5.where(scamp5.F <= scamp5.C)
+    scamp5.where(scamp5.B <= scamp5.F)
+    scamp5.where(scamp5.F <= scamp5.C)
     scamp5.C = scamp5.F
     scamp5.all()
 
@@ -45,7 +48,8 @@ def median_filter():
     scamp5.A = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.A <= scamp5.F) & scamp5.where(scamp5.F <= scamp5.B)
+    scamp5.where(scamp5.A <= scamp5.F)
+    scamp5.where(scamp5.F <= scamp5.B)
     scamp5.C = scamp5.B
     scamp5.B = scamp5.F
     scamp5.all()
@@ -62,7 +66,8 @@ def median_filter():
     scamp5.A = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.A <= scamp5.F) & scamp5.where(scamp5.F <= scamp5.B)
+    scamp5.where(scamp5.A <= scamp5.F)
+    scamp5.where(scamp5.F <= scamp5.B)
     scamp5.C = scamp5.B
     scamp5.B = scamp5.F
     scamp5.all()
@@ -79,7 +84,8 @@ def median_filter():
     scamp5.A = scamp5.F
     scamp5.all()
 
-    scamp5.where(scamp5.A <= scamp5.F) & scamp5.where(scamp5.F <= scamp5.B)
+    scamp5.where(scamp5.A <= scamp5.F)
+    scamp5.where(scamp5.F <= scamp5.B)
     scamp5.C = scamp5.B
     scamp5.B = scamp5.F
     scamp5.all()

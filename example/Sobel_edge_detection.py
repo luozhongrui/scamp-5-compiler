@@ -1,6 +1,5 @@
 from lib.sim_py.scamp5 import Scamp5
 
-
 def edge_detection():
     scamp5.A = scamp5.C.north()
     scamp5.B = scamp5.C.south()
