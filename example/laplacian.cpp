@@ -1,0 +1,16 @@
+scamp5_kernel_begin();
+res(A);
+movx(E, C, north);
+sub(B, E, C);
+add(A, A, B);
+movx(E, C, east);
+sub(B, E, C);
+add(A, A, B);
+movx(E, C, west);
+sub(B, E, C);
+add(A, A, B);
+movx(E, C, south);
+sub(B, E, C);
+add(A, A, B);
+abs(F, A);
+scamp5_kernel_end();
