@@ -41,6 +41,8 @@ class AssemblyGenerator(ast.NodeVisitor):
                 if isinstance(node.value.op, ast.Add):
                     self.assembly_code.append("add({}, {}, {});".format(src, src1, src2))
                 if isinstance(node.value.op, ast.Sub):
+                    if src == src2:
+                        raise ValueError("can't use a minus number as the assignment target of the sub command.")
                     self.assembly_code.append("sub({}, {}, {});".format(src, src1, src2))
             if isinstance(node.value.left, ast.Attribute) and isinstance(node.value.right, ast.Constant):
                 src1 = node.value.left.attr
