@@ -21,7 +21,6 @@ class AssemblyGenerator(ast.NodeVisitor):
         self.assembly_code.append("scamp5_kernel_end();")
 
     def visit_Assign(self, node):
-        # 你可以根据具体的操作添加相应的汇编代码
         self.generic_visit(node)
         if node.targets[0].value.id != 'scamp5':
             raise ValueError("Only support scamp5 object")
@@ -139,5 +138,4 @@ def edge_detection():
     print(asm_code)
     print("AST Structure:")
     parsed_code = ast.parse(source_code)
-    # 使用 ast.dump 打印解析后的 AST 结构
     print(ast.dump(parsed_code, indent=4))
