@@ -13,7 +13,7 @@ def load_image(handle, size=256):
     return map_frame
 
 class Display:
-    _instance = None  # 单例实例
+    _instance = None  # Singleton instance
 
     @classmethod
     def initialize_window(cls, rows, cols, width, height):
@@ -54,6 +54,6 @@ class Display:
             # ax.axis('off')
             if title:
                 ax.set_title(title)
-            self.fig.canvas.draw()  # 使用 draw 而不是 draw_idle
-            plt.pause(0.001)  # 增加一些延时以确保图像刷新
+            self.fig.canvas.draw()
+            plt.pause(0.001)
 
